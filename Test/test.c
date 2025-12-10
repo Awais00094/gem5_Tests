@@ -4,7 +4,15 @@
 #include <stddef.h>
 
 int main() {
+
+    printf("RISC-V Test Program:"  );
+
+    #ifdef __riscv
+        printf("Running on RISC-V architecture.\n");
+    #else
+        printf("Not running on RISC-V architecture.\n");
+    #endif
+
     
-    printf("RISC-V Test Program: Prefetching and Timing Measurements\n"  );
     return 0;
 }
