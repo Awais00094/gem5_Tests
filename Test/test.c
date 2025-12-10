@@ -8,7 +8,7 @@ int main() {
     printf("RISC-V Test Program:"  );
 
     #ifdef __riscv
-        printf("Running on RISC-V architecture.\n");
+        printf("Running on Beagle board RISC-V architecture.\n");
     #else
         printf("Not running on RISC-V architecture.\n");
     #endif
