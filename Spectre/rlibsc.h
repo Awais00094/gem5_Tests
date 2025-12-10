@@ -122,6 +122,26 @@ static inline void iflush(void* addr) {
 // -----------------------------
 // U74 specific implementaions +
 // -----------------------------
-#elif defined(U74)
+// U74 / BeagleV-Fire implementations +
+// -----------------------------
+#elif defined(U74) || defined(BEAGLEV_FIRE)
 
+// Simple software "flush" – no illegal instructions.
+// It does NOT truly evict the line from cache, but is safe on your board.
+static inline void flush(void *addr) {
+  printf("BBF: flush called on address %p\n", addr);
+  (void)addr;
+  asm volatile("fence rw, rw" ::: "memory");
+}
+
+// Instruction cache "flush": fence.i is standard RISC-V and supported.
+static inline void iflush(void *addr) {
+  printf("BBF 2: flush called on address %p\n", addr);
+  (void)addr;
+  asm volatile("fence.i" ::: "memory");
+}
+
+// ------------------------------
+// Default implementations +
+// ------------------------------
 #endif
